@@ -5,9 +5,9 @@ rpm -Uvh byacc-1.9.20130304-3.el7.x86_64.rpm
 rpm -Uvh m4-1.4.16-10.el7.x86_64.rpm
 rpm -Uvh flex-2.5.37-3.el7.x86_64.rpm
 
-tar -xvf netperf-2.7.0.tar.gz
-tar -xvf libpcap-1.7.4.tar.gz
-tar -xvf ucarp-1.5.1.tar.bz2
+tar -xf netperf-2.7.0.tar.gz
+tar -xf libpcap-1.7.4.tar.gz
+tar -xf ucarp-1.5.1.tar.bz2
 
 cd /root/jkieser/netperf-2.7.0
 ./configure
