@@ -21,4 +21,6 @@ cd /root/jkieser/ucarp-1.5.1
 ./configure
 make install
 
+cp /usr/local/lib/libpcap.so.1 /usr/lib
+ldconfig
 
