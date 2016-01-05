@@ -35,6 +35,9 @@ ip addr add 192.168.1.2 dev eth1
 /usr/local/sbin/ucarp -v 42 -p cris -a 192.168.1.5 -s 192.168.1.1 &
 /usr/local/sbin/ucarp -v 42 -p cris -a 192.168.1.5 -s 192.168.1.2 &
 
+/sbin/ip addr add 192.168.1.5/24 dev eth0
+/sbin/ip addr add 192.168.1.5/24 dev eth1
+
 #ph1-c501
 ip addr del 192.168.2.1 dev eth0
 ip addr del 192.168.2.2 dev eth1
