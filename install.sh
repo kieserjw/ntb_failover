@@ -24,3 +24,21 @@ make install
 cp /usr/local/lib/libpcap.so.1 /usr/lib
 ldconfig
 
+exit 0
+
+service corosync stop
+
+#ph1-c500
+ip addr del 192.168.1.2 dev eth1
+ip addr add 192.168.1.2 dev eth1
+
+/usr/local/sbin/ucarp -v 42 -p cris -a 192.168.1.5 -s 192.168.1.1 &
+/usr/local/sbin/ucarp -v 42 -p cris -a 192.168.1.5 -s 192.168.1.2 &
+
+#ph1-c501
+ip addr del 192.168.2.1 dev eth0
+ip addr del 192.168.2.2 dev eth1
+
+ip addr add 192.168.1.3 dev eth0
+ip addr add 192.168.1.4 dev eth1
+
