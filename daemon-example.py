@@ -5,8 +5,6 @@ from daemon import Daemon
 import logging
 import logging.handlers
 from datetime import datetime
-import fcntl, struct
-from socket import *
 import subprocess
 
 def delete_address(interface, address):
@@ -22,21 +20,7 @@ def add_address(interface, address):
 
 
 def network_state(interface):
-        # set some contants
-        SIOCGIFFLAGS = 0x8913
-        null256 = '\0'*256
-
-        # Create a socket so we have a handle to query
-        s = socket(AF_INET, SOCK_DGRAM)
-
-        # Call ioctl(  ) to get the flags for the given interface
-        result = fcntl.ioctl(s.fileno(  ), SIOCGIFFLAGS, interface + null256)
-
-        # Extract the interface's flags from the return value
-        flags, = struct.unpack('H', result[16:18])
-
-        # Check "UP" bit and print a message
-        return flags & 1
+        return 'state UP' in subprocess.Popen(["ip", "link", "show", interface], stdout=subprocess.PIPE).communicate()[0]
 
 class MyDaemon(Daemon):
         def run(self):
