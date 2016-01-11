@@ -7,6 +7,19 @@ import logging.handlers
 from datetime import datetime
 import fcntl, struct
 from socket import *
+import subprocess
+
+def delete_address(interface, address):
+	address = address + '/24'
+	if address in subprocess.Popen(["ip", "addr", "show", "dev", interface], stdout=subprocess.PIPE).communicate()[0]:
+		subprocess.Popen(["ip", "addr", "del", address, "dev", interface])
+
+
+def add_address(interface, address):
+	address = address + '/24'
+	if address not in subprocess.Popen(["ip", "addr", "show", "dev", interface], stdout=subprocess.PIPE).communicate()[0]:
+		subprocess.Popen(["ip", "addr", "add", address, "dev", interface])
+
 
 def network_state(interface):
         # set some contants
@@ -27,8 +40,9 @@ def network_state(interface):
 
 class MyDaemon(Daemon):
         def run(self):
-                logging.basicConfig(filename='daemon.log', level=logging.DEBUG)
+                logging.basicConfig(filename='/root/jkieser/daemon.log', level=logging.DEBUG)
                 interface = 'eth0'
+		address = '192.168.1.1'
                 is_up = network_state(interface)
                 logging.info("{} -- {} is {}".format(datetime.now(), interface, ('down', 'up')[is_up]))
                 while True:
@@ -36,10 +50,14 @@ class MyDaemon(Daemon):
                                 is_up = network_state(interface)
                                 time.sleep(1)
                         logging.info("{} -- {} is down".format(datetime.now(), interface))
+			delete_address(interface, address)
+			add_address('eth1', address)
                         while not is_up:
                                 is_up = network_state(interface)
                                 time.sleep(1)
                         logging.info("{} -- {} is up".format(datetime.now(), interface))
+			delete_address('eth1', address)
+			add_address(interface, address)
 
 
 if __name__ == "__main__":
