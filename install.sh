@@ -1,3 +1,7 @@
+#!/bin/bash
+
+service corosync stop
+
 c /root/jkieser
 
 rpm -Uvh bison-2.7-4.el7.x86_64.rpm
@@ -24,9 +28,8 @@ make install
 cp /usr/local/lib/libpcap.so.1 /usr/lib
 ldconfig
 
-exit 0
-
-service corosync stop
+'
+#USEFUL COMMANDS
 
 #ph1-c500
 ip addr del 192.168.1.2 dev eth1
@@ -38,10 +41,10 @@ ip addr add 192.168.1.2 dev eth1
 /sbin/ip addr add 192.168.1.5/24 dev eth0
 /sbin/ip addr add 192.168.1.5/24 dev eth1
 
+#throttle command
 tc qdisc add dev eth0 root handle 1: cbq avpkt 1000 bandwidth 2mbit;tc class add dev eth0 parent 1: classid 1:1 cbq rate 8bit allot 1500 prio 5 bounded isolated;tc filter add dev eth0 parent 1: protocol ip prio 16 u32 match ip dst 192.168.1.1 flowid 1:1;tc filter add dev eth0 parent 1: protocol ip prio 16 u32 match ip src 192.168.1.1 flowid 1:1
 
-tc qdisc add dev eth0 root handle 1: cbq avpkt 1000 bandwidth 2mbit;tc class add dev eth0 parent 1: classid 1:1 cbq rate 8bit allot 1500 prio 5 bounded isolated;tc filter add dev eth0 parent 1: protocol ip prio 16 u32 match ip dst 192.168.1.5 flowid 1:1;tc filter add dev eth0 parent 1: protocol ip prio 16 u32 match ip src 192.168.1.5 flowid 1:1
-
+#remove throttle
 tc qdisc del dev eth0 root
 
 #ph1-c501
@@ -51,5 +54,5 @@ ip addr del 192.168.2.2 dev eth1
 ip addr add 192.168.1.3 dev eth0
 ip addr add 192.168.1.4 dev eth1
 
-
+'
 
