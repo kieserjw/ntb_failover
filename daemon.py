@@ -63,7 +63,7 @@ class Daemon:
         def delpid(self):
                 os.remove(self.pidfile)
 
-        def start(self, address='', primary='', secondary=''):
+        def start(self, address='192.168.1.1', primary='eth0', secondary='eth1'):
                 """
                 Start the daemon
                 """

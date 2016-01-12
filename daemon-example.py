@@ -24,7 +24,7 @@ def network_state(interface):
         return 'state UP' in subprocess.Popen(["ip", "link", "show", interface], stdout=subprocess.PIPE).communicate()[0]
 
 class MyDaemon(Daemon):
-        def run(self, address='192.168.1.1', primary='eth0', secondary='eth1'):
+        def run(self, address, primary, secondary):
                 logging.basicConfig(filename='/root/jkieser/daemon.log', level=logging.DEBUG)
                 is_up = network_state(primary)
                 logging.info("{} -- {} is {}".format(datetime.now(), primary, ('down', 'up')[is_up]))
