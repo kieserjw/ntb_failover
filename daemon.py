@@ -63,7 +63,7 @@ class Daemon:
         def delpid(self):
                 os.remove(self.pidfile)
 
-        def start(self, address, primary, secondary):
+        def start(self, address='', primary='', secondary=''):
                 """
                 Start the daemon
                 """
